@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LM Studio JanitorAI Proxy Test</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #1a1a2e; color: #eee; }
+        h1 { color: #00d4ff; }
+        .config { background: #16213e; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .config code { background: #0f3460; padding: 2px 8px; border-radius: 4px; }
+        button { background: #00d4ff; color: #000; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; margin: 5px; }
+        button:hover { background: #00a8cc; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #result { background: #16213e; padding: 20px; border-radius: 8px; margin-top: 20px; min-height: 100px; white-space: pre-wrap; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        .loading { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <h1>LM Studio JanitorAI Proxy Test</h1>
+
+    <div class="config">
+        <h3>Configuration</h3>
+        <p><strong>API URL:</strong> <code id="apiUrl">http://localhost:5001/v1</code> (via CORS proxy)</p>
+        <p><strong>API Key:</strong> <code id="apiKey">7Xwj8XiS/L0Mep1QvQ9weCjQ</code></p>
+        <p><strong>Model:</strong> <code id="model">qwen/qwen3.5-9b</code></p>
+    </div>
+
+    <button onclick="testModels()">Test Models Endpoint</button>
+    <button onclick="testChat()">Test Chat Completion</button>
+    <button onclick="runAllTests()">Run All Tests</button>
+
+    <div id="result">Click a button to test the connection...</div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/v1';  // Using CORS proxy
+        const API_KEY = '7Xwj8XiS/L0Mep1QvQ9weCjQ';
+        const MODEL = 'qwen/qwen3.5-9b';
+
+        const result = document.getElementById('result');
+
+        function log(msg, type = '') {
+            const span = document.createElement('span');
+            span.className = type;
+            span.textContent = msg + '\n';
+            result.appendChild(span);
+            result.scrollTop = result.scrollHeight;
+        }
+
+        function clear() {
+            result.innerHTML = '';
+        }
+
+        async function testModels() {
+            clear();
+            log('Testing /v1/models endpoint...', 'loading');
+            try {
+                const resp = await fetch(`${API_URL}/models`, {
+                    headers: { 'Authorization': `Bearer ${API_KEY}` }
+                });
+                const data = await resp.json();
+                const models = data.data.map(m => m.id);
+                log(`✓ Available models: ${models.join(', ')}`, 'success');
+                return true;
+            } catch (e) {
+                log(`✗ Failed: ${e.message}`, 'error');
+                return false;
+            }
+        }
+
+        async function testChat() {
+            clear();
+            log('Testing /v1/chat/completions endpoint...', 'loading');
+            try {
+                const resp = await fetch(`${API_URL}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [{ role: 'user', content: 'Say "Connection successful!" and nothing else.' }],
+                        max_tokens: 50,
+                        temperature: 0.1
+                    })
+                });
+                const data = await resp.json();
+                const content = data.choices[0].message.content;
+                log(`✓ Response: ${content}`, 'success');
+                return true;
+            } catch (e) {
+                log(`✗ Failed: ${e.message}`, 'error');
+                return false;
+            }
+        }
+
+        async function runAllTests() {
+            clear();
+            log('=' .repeat(50));
+            log('LM Studio JanitorAI Proxy Connection Test');
+            log('=' .repeat(50));
+            log(`API URL: ${API_URL}`);
+            log(`Model: ${MODEL}`);
+            log('=' .repeat(50) + '\n');
+
+            log('Testing /v1/models endpoint...', 'loading');
+            let modelsOk = false;
+            try {
+                const resp = await fetch(`${API_URL}/models`, {
+                    headers: { 'Authorization': `Bearer ${API_KEY}` }
+                });
+                const data = await resp.json();
+                const models = data.data.map(m => m.id);
+                log(`✓ Available models: ${models.join(', ')}`, 'success');
+                modelsOk = true;
+            } catch (e) {
+                log(`✗ Failed: ${e.message}`, 'error');
+            }
+
+            log('\nTesting /v1/chat/completions endpoint...', 'loading');
+            let chatOk = false;
+            try {
+                const resp = await fetch(`${API_URL}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [{ role: 'user', content: 'Say "Connection successful!" and nothing else.' }],
+                        max_tokens: 50,
+                        temperature: 0.1
+                    })
+                });
+                const data = await resp.json();
+                const content = data.choices[0].message.content;
+                log(`✓ Response: ${content}`, 'success');
+                chatOk = true;
+            } catch (e) {
+                log(`✗ Failed: ${e.message}`, 'error');
+            }
+
+            log('\n' + '=' .repeat(50));
+            if (modelsOk && chatOk) {
+                log('✓ All tests passed! Ready for JanitorAI.', 'success');
+            } else {
+                log('✗ Some tests failed. Check LM Studio is running.', 'error');
+            }
+            log('=' .repeat(50));
+        }
+    </script>
+</body>
+</html>

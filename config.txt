@@ -1,0 +1,55 @@
+JanitorAI Proxy Configuration
+==============================
+
+JanitorAI NOW WORKS with CSP Bypass Extension + nginx rewrite
+
+-------------------------------
+JanitorAI Settings (WORKING)
+-------------------------------
+URL:         https://a857-174-99-18-83.ngrok-free.app
+API Key:     7Xwj8XiS/L0Mep1QvQ9weCjQ
+Model:       qwen/qwen3.5-9b
+
+REQUIRED:    Install CSP Bypass Extension in Firefox
+             Location: csp-bypass-extension\
+
+-------------------------------
+SillyTavern (WORKING)
+-------------------------------
+URL:         http://localhost:8000
+Location:    C:\Users\Dabaski\Documents\Programming Projects\JanitorAI Proxy\SillyTavern
+
+Start:       cd SillyTavern && node server.js
+             Or double-click Start.bat
+
+API Settings:
+  Type:      Chat Completion > Custom (OpenAI-compatible)
+  Endpoint:  http://localhost:1234/v1
+  API Key:   7Xwj8XiS/L0Mep1QvQ9weCjQ
+  Model ID:  qwen/qwen3.5-9b
+
+-------------------------------
+LM Studio
+-------------------------------
+Version:     0.4.6
+Model:       Qwen 3.5 9b (qwen/qwen3.5-9b)
+Port:        1234
+API URL:     http://localhost:1234/v1
+
+-------------------------------
+ngrok (for external access)
+-------------------------------
+Location:    C:\Users\Dabaski\Documents\Programming Projects\JanitorAI Proxy\ngrok.exe
+Start:       ngrok http 5001
+Dashboard:   http://localhost:4040
+NOTE:        URL changes each restart on free tier
+
+-------------------------------
+nginx (CORS proxy)
+-------------------------------
+Location:    C:\nginx-1.24.0\
+Config:      C:\nginx-1.24.0\conf\nginx.conf
+Port:        5001
+
+Start:       cd C:\nginx-1.24.0 && nginx.exe
+Stop:        cd C:\nginx-1.24.0 && nginx.exe -s stop

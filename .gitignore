@@ -1,0 +1,34 @@
+# Binaries
+*.exe
+!ngrok.exe
+
+# Node modules
+node_modules/
+SillyTavern/node_modules/
+
+# Logs
+*.log
+logs/
+
+# Temp files
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets (don't commit real keys)
+# config.txt contains example keys only
+
+# Downloaded archives
+*.zip
+*.tar.gz
+
+# SillyTavern data
+SillyTavern/data/
+SillyTavern/backups/
