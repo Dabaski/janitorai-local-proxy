@@ -9,7 +9,7 @@ JanitorAI blocks custom API endpoints via Content Security Policy (CSP). This se
 1. **LM Studio** - Local LLM server (OpenAI-compatible API)
 2. **nginx** - Reverse proxy that rewrites endpoints and handles CORS
 3. **ngrok** - Exposes local server to the internet
-4. **CSP Bypass Extension** - Firefox extension that removes CSP restrictions
+4. **[CSP Bypass Extension](https://github.com/Dabaski/janitorai-csp-bypass)** - Firefox/Chrome extension that removes CSP restrictions
 
 ```
 JanitorAI → ngrok → nginx:5001 → LM Studio:1234
@@ -162,17 +162,21 @@ Copy the public URL (e.g., `https://xxxx-xx-xx-xx-xx.ngrok-free.app`)
 
 ### 7. Install CSP Bypass Extension
 
+Download from: **https://github.com/Dabaski/janitorai-csp-bypass**
+
 **Firefox:**
-1. Go to `about:debugging`
-2. Click "This Firefox"
-3. Click "Load Temporary Add-on..."
-4. Select `csp-bypass-extension/manifest.json`
+1. Clone or download the extension repo
+2. Go to `about:debugging`
+3. Click "This Firefox"
+4. Click "Load Temporary Add-on..."
+5. Select `manifest.json` from the extension folder
 
 **Chrome/Brave:**
-1. Go to `chrome://extensions`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select the `csp-bypass-extension` folder
+1. Clone or download the extension repo
+2. Go to `chrome://extensions`
+3. Enable "Developer mode"
+4. Click "Load unpacked"
+5. Select the extension folder
 
 ### 8. Configure JanitorAI
 
