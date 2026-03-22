@@ -1,6 +1,10 @@
 # JanitorAI Local LLM Proxy
 
-Run local LLMs (via LM Studio) with JanitorAI using nginx reverse proxy and a CSP bypass browser extension.
+> **Use local AI models with JanitorAI** - Run Qwen, Llama, Mistral, and other LLMs locally via LM Studio
+
+Run local LLMs (via LM Studio) with JanitorAI using nginx reverse proxy and a CSP bypass browser extension. No paid API keys needed - use your own hardware!
+
+**Keywords:** JanitorAI local LLM, LM Studio JanitorAI, free JanitorAI API, JanitorAI reverse proxy, local AI roleplay
 
 ## Overview
 
